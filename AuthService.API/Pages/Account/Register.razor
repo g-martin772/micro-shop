@@ -1,0 +1,82 @@
+﻿@page "/Account/Register"
+@using System.Text
+@using AuthService.API.Models
+@using Humanizer
+@inject UserManager<ApplicationUser> UserManager
+@inject NavigationManager NavigationManager
+@rendermode InteractiveServer
+
+<EditForm Model="Model" OnValidSubmit="SubmitRegister" FormName="registerForm">
+    <DataAnnotationsValidator/>
+    <label for="email">Email</label>
+    <InputText @bind-Value="Model.Email" type="email" id="email"/>
+    <ValidationMessage For="() => Model.Email"/>
+    
+    <label for="password">Password</label>
+    <InputText @bind-Value="Model.Password" type="password" id="password"/>
+    <ValidationMessage For="() => Model.Password"/>
+    
+    <label for="password_conf">Confirm Password</label>
+    <InputText @bind-Value="Model.PasswordConf" type="password_conf"/>
+    <ValidationMessage For="() => Model.PasswordConf"/>
+    
+    <button type="submit">Register</button>
+</EditForm>
+
+@if(!String.IsNullOrEmpty(ResultMessage))
+{
+    <p>@ResultMessage</p>
+    <p>@Countdown</p>
+}
+
+@code {
+    private RegisterModel Model { get; set; } = new RegisterModel();
+    private string ResultMessage { get; set; } = string.Empty;
+    private string Countdown { get; set; } = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+
+    private async Task SubmitRegister()
+    {
+        if (!String.Equals(Model.Password, Model.PasswordConf))
+        {
+            ResultMessage = "Passwords do not match!";
+            return;
+        }
+        
+        Console.WriteLine($"Register with data: Email: {Model.Email} - Password: {Model.Password}");
+
+        var result = await UserManager.CreateAsync(new ApplicationUser { Email = Model.Email, UserName = Model.Email }, Model.Password);
+
+        if (result == IdentityResult.Success)
+        {
+            ResultMessage = "User created successfully!";
+            Console.WriteLine($"User created successfully with data: {Model.Email} and {Model.Password}!");
+            
+            for (int i = 5; i > 0; i--)
+            {
+                Countdown = $"Redirecting you in {i}s...";
+                await InvokeAsync(StateHasChanged);
+                await Task.Delay(1000);
+            }
+            
+            NavigationManager.NavigateTo("/Account/Login");
+        }
+
+        else
+            ResultMessage = string.Join("\n", result.Errors.Select(x => x.Description));
+    }
+    
+    public class RegisterModel
+    {
+        [Required]
+        public string Email { get; set; }
+        [Required]
+        public string Password { get; set; }
+        [Required]
+        public string PasswordConf { get; set; }
+    }
+}

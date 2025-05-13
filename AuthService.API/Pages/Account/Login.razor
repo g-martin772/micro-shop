@@ -1,0 +1,58 @@
+﻿@page "/Account/Login"
+@using AuthService.API.Models
+@inject UserManager<ApplicationUser> UserManager
+@inject SignInManager<ApplicationUser> SignInManager
+@inject NavigationManager NavigationManager
+
+<EditForm Model="Model" method="post" OnValidSubmit="SubmitLogin" FormName="loginForm">
+    <DataAnnotationsValidator/>
+    
+    <label for="email">Email</label>
+    <InputText @bind-Value="Model.Email" type="email" id="email"/>
+    <ValidationMessage For="() => Model.Email"/>
+    <label for="password">Password</label>
+    <InputText @bind-Value="Model.Password" type="password" id="password"/>
+    <ValidationMessage For="() => Model.Password"/>
+
+    <button type="submit">Login</button>
+    <p>Not registered? Sign up <a href="/Account/Register">here</a></p>
+</EditForm>
+
+@if(!String.IsNullOrEmpty(ResultMessage))
+{
+    <p>@ResultMessage</p>
+}
+
+@code {
+    [SupplyParameterFromForm] private LoginModel Model { get; set; } = new LoginModel();
+    [SupplyParameterFromQuery] private string ReturnUrl { get; set; } = string.Empty;
+    
+    private string ResultMessage { get; set; } = string.Empty;
+
+    private async Task SubmitLogin()
+    {
+        Console.WriteLine($"Login with data: Email: {Model.Email} - Password: {Model.Password}");
+
+        var user = await UserManager.FindByEmailAsync(Model.Email);
+        if (user == null)
+        {
+            ResultMessage = "User not found!";
+            return;
+        }
+
+        var result = await SignInManager.PasswordSignInAsync(user, Model.Password, true, false);
+        if (result.Succeeded)
+            NavigationManager.NavigateTo(ReturnUrl);
+        else
+            ResultMessage = "Invalid credentials!";
+    }
+
+    
+    public class LoginModel
+    {
+        [Required]
+        public string Email { get; set; }
+        [Required]
+        public string Password { get; set; }
+    }
+}

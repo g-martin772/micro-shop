@@ -1,0 +1,62 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.2.0" />
+        <PackageReference Include="Duende.IdentityServer.AspNetIdentity" Version="7.2.1" />
+        <PackageReference Include="Duende.IdentityServer.EntityFramework" Version="7.2.1" />
+        <PackageReference Include="Duende.IdentityServer.Storage" Version="7.2.1" />
+        <PackageReference Include="Duende.IdentityServer" Version="7.2.1" />
+
+        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.4" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="9.0.4" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.4">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.4" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.4" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.4">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="9.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <_ContentIncludedByDefault Remove="wwwroot\css\site.css" />
+        <_ContentIncludedByDefault Remove="wwwroot\favicon.ico" />
+        <_ContentIncludedByDefault Remove="wwwroot\js\site.js" />
+        <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\css\bootstrap.css" />
+        <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\css\bootstrap.css.map" />
+        <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\css\bootstrap.min.css" />
+        <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\css\bootstrap.min.css.map" />
+        <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.js" />
+        <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js" />
+        <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\LICENSE" />
+        <_ContentIncludedByDefault Remove="wwwroot\lib\jquery-validation-unobtrusive\dist\jquery.validate.unobtrusive.js" />
+        <_ContentIncludedByDefault Remove="wwwroot\lib\jquery-validation-unobtrusive\dist\jquery.validate.unobtrusive.min.js" />
+        <_ContentIncludedByDefault Remove="wwwroot\lib\jquery-validation\dist\additional-methods.js" />
+        <_ContentIncludedByDefault Remove="wwwroot\lib\jquery-validation\dist\additional-methods.min.js" />
+        <_ContentIncludedByDefault Remove="wwwroot\lib\jquery-validation\dist\jquery.validate.js" />
+        <_ContentIncludedByDefault Remove="wwwroot\lib\jquery-validation\dist\jquery.validate.min.js" />
+        <_ContentIncludedByDefault Remove="wwwroot\lib\jquery-validation\LICENSE.md" />
+        <_ContentIncludedByDefault Remove="wwwroot\lib\jquery\dist\jquery.js" />
+        <_ContentIncludedByDefault Remove="wwwroot\lib\jquery\dist\jquery.min.js" />
+        <_ContentIncludedByDefault Remove="wwwroot\lib\jquery\dist\jquery.min.map" />
+        <_ContentIncludedByDefault Remove="wwwroot\lib\jquery\LICENSE.txt" />
+        <_ContentIncludedByDefault Remove="keys\is-signing-key-6D1BB327F600F729DD4840278F9DEC34.json" />
+        <_ContentIncludedByDefault Remove="keys\is-signing-key-B9D333272D17B922F603E1FA905A235C.json" />
+        <_ContentIncludedByDefault Remove="keys\is-signing-key-DCB35F94E2E3666995E139D9C673A325.json" />
+        <_ContentIncludedByDefault Remove="keys\is-signing-key-FB709EAAA0D0A909FC86BE2A24C65A56.json" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\ServiceDefaults\ServiceDefaults.csproj" />
+    </ItemGroup>
+</Project>
