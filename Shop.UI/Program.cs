@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.FluentUI.AspNetCore.Components;
 using Shop.UI.Components;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +9,10 @@ builder.AddServiceDefaults();
 
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Services.AddFluentUIComponents();
+builder.Services.AddDataGridEntityFrameworkAdapter();
+builder.Services.AddHttpContextAccessor();
 
 const string identityUrl = "https://localhost:5001";
 const string callBackUrl = "https://localhost:7119";
@@ -38,6 +43,7 @@ builder.Services.AddAuthentication(options =>
         options.CallbackPath = "/signin-oidc";
         options.NonceCookie.IsEssential = false;
         options.NonceCookie.SecurePolicy = CookieSecurePolicy.Always;
+        options.MapInboundClaims = false;
     });
 
 builder.Services.AddCascadingAuthenticationState();
