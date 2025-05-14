@@ -7,13 +7,15 @@ var dbPassword = builder.AddParameter("db-pw", secret: true);
 
 var dbContainer = builder.AddPostgres("postgres", dbUser, dbPassword)
     .WithLifetime(ContainerLifetime.Persistent)
-    .WithDataVolume();
+    .WithDataVolume()
+    .WithPgAdmin();
 
 var identityDb = dbContainer.AddDatabase("IdentityDb");
 
 
 var authService = builder.AddProject<Projects.AuthService_API>("AuthService")
-    .WithReference(identityDb);
+    .WithReference(identityDb)
+    .WaitFor(identityDb);
 
 
 builder.Build().Run();

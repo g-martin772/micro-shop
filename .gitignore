@@ -5,3 +5,4 @@ obj/
 keys/
 *.jwk
 *.env
+*.user
