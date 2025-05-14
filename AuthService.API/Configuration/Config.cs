@@ -71,6 +71,40 @@ public class Config
                 },
                 AccessTokenLifetime = 60 * 60 * 2, // 2 hours
                 IdentityTokenLifetime = 60 * 60 * 2 // 2 hours
+            },
+            new Client()
+            {
+                ClientId = "seller",
+                ClientName = "Seller UI",
+                ClientSecrets = new List<Secret>
+                {
+                    new Secret("secret".Sha256())
+                },
+                ClientUri = "https://localhost:7272",
+                AllowedGrantTypes = GrantTypes.Code,
+                AllowAccessTokensViaBrowser = false,
+                RequireConsent = false,
+                AllowOfflineAccess = true,
+                AlwaysIncludeUserClaimsInIdToken = true,
+                RequirePkce = false,
+                RedirectUris = new List<string>
+                {
+                    "https://localhost:7272/signin-oidc"
+                },
+                PostLogoutRedirectUris = new List<string>
+                {
+                    "https://localhost:7272/signout-callback-oidc"
+                },
+                AllowedScopes = new List<string>
+                {
+                    IdentityServerConstants.StandardScopes.OpenId,
+                    IdentityServerConstants.StandardScopes.Profile,
+                    IdentityServerConstants.StandardScopes.OfflineAccess,
+                    "orders",
+                    "basket"
+                },
+                AccessTokenLifetime = 60 * 60 * 2, // 2 hours
+                IdentityTokenLifetime = 60 * 60 * 2 // 2 hours
             }
         };
     }

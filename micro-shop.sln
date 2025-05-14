@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthService.API", "AuthServ
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shop.UI", "Shop.UI\Shop.UI.csproj", "{3778506B-3C47-4274-91CC-3D0F9AA5F1D8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seller.UI", "Seller.UI\Seller.UI.csproj", "{0C372847-75C0-4BE1-AEB9-1F2A7162FC73}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{3778506B-3C47-4274-91CC-3D0F9AA5F1D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3778506B-3C47-4274-91CC-3D0F9AA5F1D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3778506B-3C47-4274-91CC-3D0F9AA5F1D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C372847-75C0-4BE1-AEB9-1F2A7162FC73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C372847-75C0-4BE1-AEB9-1F2A7162FC73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C372847-75C0-4BE1-AEB9-1F2A7162FC73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C372847-75C0-4BE1-AEB9-1F2A7162FC73}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
