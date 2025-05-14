@@ -1,9 +1,9 @@
 @page "/claims"
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @using System.Security.Claims
-@using Microsoft.AspNetCore.Authorization
-@using Microsoft.AspNetCore.Components.Authorization
+@using Seller.UI.Components.Layout
 @attribute [Authorize]
+@layout TestLayout
 
 <h3>User Claims</h3>
 
@@ -17,7 +17,7 @@ else if (!m_Claims.Any())
 }
 else
 {
-    <table class="table table-striped">
+    <table class="table table-striped" style="* { height: 20px;}">
         <thead>
         <tr>
             <th>Type</th>

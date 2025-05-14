@@ -18,7 +18,9 @@ const string identityUrl = "https://localhost:5001";
 const string callBackUrl = "https://localhost:7272";
 const int sessionCookieLifetime = 60;
 
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorizationBuilder()
+    .AddPolicy("Seller", policy => policy.RequireClaim("Seller"));
+
 builder.Services.AddAuthentication(options =>
     {
         options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;

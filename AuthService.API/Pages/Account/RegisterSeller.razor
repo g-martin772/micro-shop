@@ -1,16 +1,21 @@
-﻿@page "/Account/Register"
+@page "/Account/RegisterSeller"
+@using System.Security.Claims
 @using AuthService.API.Models
 @inject UserManager<ApplicationUser> UserManager
 @inject NavigationManager NavigationManager
 @rendermode InteractiveServer
 
-<h1>Create user account</h1>
+<h1>Create business account</h1>
 
 <EditForm Model="Model" OnValidSubmit="SubmitRegister" FormName="registerForm">
     <DataAnnotationsValidator/>
     <label for="email">Email</label>
     <InputText @bind-Value="Model.Email" type="email" id="email"/>
     <ValidationMessage For="() => Model.Email"/>
+    
+    <label for="company_name">Company Name</label>
+    <InputText @bind-Value="Model.CompanyName" type="text" id="company_name"/>
+    <ValidationMessage For="() => Model.CompanyName"/>
 
     <label for="password">Password</label>
     <InputText @bind-Value="Model.Password" type="password" id="password"/>
@@ -23,35 +28,15 @@
     <button type="submit">Register</button>
 </EditForm>
 
-@if (string.IsNullOrEmpty(ReturnUrl))
-{
-    <p>Register as a Seller instead? Go <a href="/Account/RegisterSeller">here</a></p>
-}
-else
-{
-    <p>Register as a Seller instead? Go <a href="/Account/RegisterSeller?returnUrl=@ReturnUrl">here</a></p>
-}
-
-@if (!String.IsNullOrEmpty(ResultMessage))
-{
-    <p>@ResultMessage</p>
-    <p>@Countdown</p>
-}
-
 @code {
     private RegisterModel Model { get; set; } = new RegisterModel();
     private string ResultMessage { get; set; } = string.Empty;
     private string Countdown { get; set; } = string.Empty;
     [SupplyParameterFromQuery] private string ReturnUrl { get; set; } = string.Empty;
-
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-    }
-
+    
     private async Task SubmitRegister()
     {
-        if (!String.Equals(Model.Password, Model.PasswordConf))
+        if (!string.Equals(Model.Password, Model.PasswordConf))
         {
             ResultMessage = "Passwords do not match!";
             return;
@@ -60,6 +45,16 @@ else
         Console.WriteLine($"Register with data: Email: {Model.Email} - Password: {Model.Password}");
 
         var result = await UserManager.CreateAsync(new ApplicationUser { Email = Model.Email, UserName = Model.Email }, Model.Password);
+
+        if (result == IdentityResult.Success)
+        {
+            var user = await UserManager.FindByEmailAsync(Model.Email);
+            await UserManager.AddClaimAsync(user!, new Claim("Seller", Model.CompanyName));
+        }
+        else
+        {
+            throw new Exception("Panic");
+        }
 
         if (result == IdentityResult.Success)
         {
@@ -73,8 +68,8 @@ else
                 await Task.Delay(1000);
             }
 
-            NavigationManager.NavigateTo(string.IsNullOrEmpty(ReturnUrl) 
-                ? "/Account/Login" 
+            NavigationManager.NavigateTo(string.IsNullOrEmpty(ReturnUrl)
+                ? "/Account/Login"
                 : $"/Account/Login?returnUrl={ReturnUrl}");
         }
 
@@ -84,6 +79,7 @@ else
 
     public class RegisterModel
     {
+        [Required] public string CompanyName { get; set; }
         [Required] public string Email { get; set; }
         [Required] public string Password { get; set; }
         [Required] public string PasswordConf { get; set; }

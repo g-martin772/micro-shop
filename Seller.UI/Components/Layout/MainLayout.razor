@@ -1,23 +1,90 @@
 ﻿@inherits LayoutComponentBase
+@attribute [Authorize]
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu/>
-    </div>
+<AuthorizeView Policy="Seller">
+    <Authorized>
+        <FluentLayout Style="overflow: hidden">
+            <FluentHeader Style="background-color: var(--neutral-layer-2);display: flex; align-items: center;">
+                <div style="color: var(--neutral-foreground-rest); padding-top: 0.8rem">
+                    Micro-Shop-Admin
+                </div>
+                <FluentSpacer/>
+                <FluentButton Appearance="Appearance.Stealth" OnClick="@LogoutAsync"
+                              Title="Logout" aria-label="Logout" Style="aspect-ratio: 1/1; height: 32px">
+                    <FluentIcon Value="@(new Icons.Regular.Size24.PictureInExit())" Color="Color.Neutral"/>
+                </FluentButton>
+                <FluentButton Appearance="Appearance.Stealth" OnClick="@LaunchSettingsAsync"
+                              Title="Settings" aria-label="Settings" Style="aspect-ratio: 1/1; height: 32px">
+                    <FluentIcon Value="@(new Icons.Regular.Size24.Settings())" Color="Color.Neutral"/>
+                </FluentButton>
+            </FluentHeader>
 
-    <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
-        </div>
+            <FluentStack Orientation="Orientation.Horizontal" Width="100%">
+                <FluentAppBar Orientation="@(m_Vertical ? Orientation.Vertical : Orientation.Horizontal)"
+                              Style="@(" background-color: var(--neutral-layer-2);")"
+                              PopoverVisibilityChanged="HandlePopover"
+                              PopoverShowSearch="@m_ShowSearch">
 
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div>
+                    <FluentAppBarItem Href="/"
+                                      Match="NavLinkMatch.All"
+                                      IconRest="@(new Icons.Regular.Size24.Home())"
+                                      IconActive="@(new Icons.Filled.Size24.Home())"
+                                      Text="Overview"/>
+                    <FluentAppBarItem Href="/items"
+                                      Match="NavLinkMatch.All"
+                                      IconRest="@(new Icons.Regular.Size24.Book())"
+                                      IconActive="@(new Icons.Filled.Size24.Book())"
+                                      Text="Items"/>
+                    <FluentAppBarItem Href="/members"
+                                      Match="NavLinkMatch.All"
+                                      IconRest="@(new Icons.Regular.Size24.Person())"
+                                      IconActive="@(new Icons.Filled.Size24.Person())"
+                                      Text="Members"/>
+                    <FluentAppBarItem Href="/orders"
+                                      Match="NavLinkMatch.All"
+                                      IconRest="@(new Icons.Regular.Size24.Calculator())"
+                                      IconActive="@(new Icons.Filled.Size24.Calculator())"
+                                      Text="Orders"/>
+                </FluentAppBar>
 
-<div id="blazor-error-ui" data-nosnippet>
-    An unhandled error has occurred.
-    <a href="." class="reload">Reload</a>
-    <span class="dismiss">🗙</span>
-</div>
+
+                <FluentBodyContent Style="overflow: scroll; padding: 0.8rem 0 48px;">
+                    @Body
+                </FluentBodyContent>
+            </FluentStack>
+        </FluentLayout>
+    </Authorized>
+    <NotAuthorized>
+        <p>Please log in with a business account! 
+            <a href="https://localhost:5001/Account/Login?returnUrl=https://localhost:7272">Go to login</a>
+        </p>
+    </NotAuthorized>
+</AuthorizeView>
+
+
+<FluentToastProvider/>
+<FluentDialogProvider/>
+<FluentTooltipProvider/>
+<FluentMessageBarProvider/>
+<FluentMenuProvider/>
+<FluentDesignTheme Mode="DesignThemeModes.Dark" OfficeColor="OfficeColor.Exchange"/>
+
+
+@code {
+    private bool m_Vertical = true;
+    private bool m_ShowSearch = true;
+
+    private void HandlePopover(bool visible)
+    {
+    }
+
+    private async Task LaunchSettingsAsync()
+    {
+    }
+
+    private Task LogoutAsync(MouseEventArgs arg)
+    {
+        throw new NotImplementedException();
+    }
+
+}
