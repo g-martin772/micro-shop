@@ -42,6 +42,7 @@ builder.Services.AddAuthentication(options =>
         options.Scope.Add("profile");
         options.Scope.Add("orders");
         options.Scope.Add("basket");
+        options.Scope.Add("Seller");
         options.CallbackPath = "/signin-oidc";
         options.NonceCookie.IsEssential = false;
         options.NonceCookie.SecurePolicy = CookieSecurePolicy.Always;

@@ -29,7 +29,8 @@ public class Config
         return new List<IdentityResource>
         {
             new IdentityResources.OpenId(),
-            new IdentityResources.Profile()
+            new IdentityResources.Profile(),
+            new IdentityResource("Seller", new List<string> { "seller", "Seller" }),
         };
     }
 
@@ -100,6 +101,7 @@ public class Config
                     IdentityServerConstants.StandardScopes.OpenId,
                     IdentityServerConstants.StandardScopes.Profile,
                     IdentityServerConstants.StandardScopes.OfflineAccess,
+                    "Seller",
                     "orders",
                     "basket"
                 },
