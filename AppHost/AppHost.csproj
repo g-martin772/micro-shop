@@ -18,6 +18,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\AuthService.API\AuthService.API.csproj" />
+      <ProjectReference Include="..\Shop.UI\Shop.UI.csproj" />
     </ItemGroup>
 
 </Project>

@@ -17,5 +17,8 @@ var authService = builder.AddProject<Projects.AuthService_API>("AuthService")
     .WithReference(identityDb)
     .WaitFor(identityDb);
 
+var shopUi = builder.AddProject<Projects.Shop_UI>("ShopUI")
+    .WithReference(authService)
+    .WaitFor(authService);
 
 builder.Build().Run();

@@ -1,0 +1,63 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Shop.UI.Components;
+
+var builder = WebApplication.CreateBuilder(args);
+
+builder.AddServiceDefaults();
+
+builder.Services.AddRazorComponents()
+    .AddInteractiveServerComponents();
+
+const string identityUrl = "https://localhost:5001";
+const string callBackUrl = "https://localhost:7119";
+const int sessionCookieLifetime = 60;
+
+builder.Services.AddAuthorization();
+builder.Services.AddAuthentication(options =>
+    {
+        options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+    })
+    .AddCookie(options => options.ExpireTimeSpan = TimeSpan.FromMinutes(sessionCookieLifetime))
+    .AddOpenIdConnect(options =>
+    {
+        options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        options.Authority = identityUrl;
+        options.SignedOutRedirectUri = callBackUrl;
+        options.ClientId = "shop";
+        options.ClientSecret = "secret";
+        options.ResponseType = "code";
+        options.SaveTokens = true;
+        options.GetClaimsFromUserInfoEndpoint = true;
+        options.RequireHttpsMetadata = false;
+        options.Scope.Add("openid");
+        options.Scope.Add("profile");
+        options.Scope.Add("orders");
+        options.Scope.Add("basket");
+        options.CallbackPath = "/signin-oidc";
+        options.NonceCookie.IsEssential = false;
+        options.NonceCookie.SecurePolicy = CookieSecurePolicy.Always;
+    });
+
+builder.Services.AddCascadingAuthenticationState();
+
+var app = builder.Build();
+
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Error", createScopeForErrors: true);
+    app.UseHsts();
+}
+
+app.UseHttpsRedirection();
+app.UseAntiforgery();
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.MapDefaultEndpoints();
+app.MapStaticAssets();
+app.MapRazorComponents<App>()
+    .AddInteractiveServerRenderMode();
+
+app.Run();

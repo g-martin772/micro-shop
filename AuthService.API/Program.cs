@@ -37,7 +37,7 @@ builder.Services.AddIdentityServer()
     .AddInMemoryIdentityResources(Config.GetResources())
     .AddInMemoryApiScopes(Config.GetApiScopes())
     .AddInMemoryApiResources(Config.GetApis())
-    .AddInMemoryClients(Config.GetClients(builder.Configuration))
+    .AddInMemoryClients(Config.GetClients())
     .AddAspNetIdentity<ApplicationUser>()
 // TODO: Not recommended for production - you need to store your key material somewhere secure
     .AddDeveloperSigningCredential();

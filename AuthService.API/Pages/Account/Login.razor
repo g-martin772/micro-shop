@@ -6,7 +6,7 @@
 
 <EditForm Model="Model" method="post" OnValidSubmit="SubmitLogin" FormName="loginForm">
     <DataAnnotationsValidator/>
-    
+
     <label for="email">Email</label>
     <InputText @bind-Value="Model.Email" type="email" id="email"/>
     <ValidationMessage For="() => Model.Email"/>
@@ -15,10 +15,17 @@
     <ValidationMessage For="() => Model.Password"/>
 
     <button type="submit">Login</button>
-    <p>Not registered? Sign up <a href="/Account/Register">here</a></p>
+    @if (string.IsNullOrEmpty(ReturnUrl))
+    {
+        <p>Not registered? Sign up <a href="/Account/Register">here</a></p>
+    }
+    else
+    {
+        <p>Not registered? Sign up <a href="/Account/Register?returnUrl=@ReturnUrl">here</a></p>
+    }
 </EditForm>
 
-@if(!String.IsNullOrEmpty(ResultMessage))
+@if (!string.IsNullOrEmpty(ResultMessage))
 {
     <p>@ResultMessage</p>
 }
@@ -26,7 +33,7 @@
 @code {
     [SupplyParameterFromForm] private LoginModel Model { get; set; } = new LoginModel();
     [SupplyParameterFromQuery] private string ReturnUrl { get; set; } = string.Empty;
-    
+
     private string ResultMessage { get; set; } = string.Empty;
 
     private async Task SubmitLogin()
@@ -47,12 +54,11 @@
             ResultMessage = "Invalid credentials!";
     }
 
-    
+
     public class LoginModel
     {
-        [Required]
-        public string Email { get; set; }
-        [Required]
-        public string Password { get; set; }
+        [Required] public string Email { get; set; }
+        [Required] public string Password { get; set; }
     }
+
 }

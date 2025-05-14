@@ -34,19 +34,19 @@ public class Config
     }
 
     // client want to access resources (aka scopes)
-    public static IEnumerable<Client> GetClients(IConfiguration configuration)
+    public static IEnumerable<Client> GetClients()
     {
         return new List<Client>
         {
             new Client()
             {
-                ClientId = "webapp",
-                ClientName = "WebApp Client",
+                ClientId = "shop",
+                ClientName = "Shop UI",
                 ClientSecrets = new List<Secret>
                 {
                     new Secret("secret".Sha256())
                 },
-                ClientUri = $"{configuration["WebAppClient"]}", // public uri of the client
+                ClientUri = "https://localhost:7119",
                 AllowedGrantTypes = GrantTypes.Code,
                 AllowAccessTokensViaBrowser = false,
                 RequireConsent = false,
@@ -55,11 +55,11 @@ public class Config
                 RequirePkce = false,
                 RedirectUris = new List<string>
                 {
-                    "http://localhost:5200/signin-oidc"
+                    "https://localhost:7119/signin-oidc"
                 },
                 PostLogoutRedirectUris = new List<string>
                 {
-                    "http://localhost:5200/signout-callback-oidc"
+                    "https://localhost:7119/signout-callback-oidc"
                 },
                 AllowedScopes = new List<string>
                 {
@@ -67,8 +67,7 @@ public class Config
                     IdentityServerConstants.StandardScopes.Profile,
                     IdentityServerConstants.StandardScopes.OfflineAccess,
                     "orders",
-                    "basket",
-                    "webshoppingagg"
+                    "basket"
                 },
                 AccessTokenLifetime = 60 * 60 * 2, // 2 hours
                 IdentityTokenLifetime = 60 * 60 * 2 // 2 hours
