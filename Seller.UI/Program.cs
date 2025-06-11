@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Seller.UI.Components;
 
@@ -13,6 +14,7 @@ builder.Services.AddRazorComponents()
 builder.Services.AddFluentUIComponents();
 builder.Services.AddDataGridEntityFrameworkAdapter();
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddCors();
 
 const string identityUrl = "https://localhost:5001";
 const string callBackUrl = "https://localhost:7272";
@@ -60,7 +62,12 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseRouting();
 app.UseAntiforgery();
+app.UseCors(p =>
+    p.AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader());
 app.UseAuthentication();
 app.UseAuthorization();
 

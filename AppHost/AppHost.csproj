@@ -12,13 +12,18 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Aspire.Hosting.AppHost" Version="9.2.1" />
-        <PackageReference Include="Aspire.Hosting.PostgreSQL" Version="9.2.1" />
-        <PackageReference Include="Aspire.Hosting.Redis" Version="9.2.1" />
+        <PackageReference Include="Aspire.Hosting.AppHost" Version="9.3.0" />
+        <PackageReference Include="Aspire.Hosting.Azure" Version="9.3.0" />
+        <PackageReference Include="Aspire.Hosting.Azure.PostgreSQL" Version="9.3.0" />
+        <PackageReference Include="Aspire.Hosting.Azure.Redis" Version="9.3.0" />
+        <PackageReference Include="Aspire.Hosting.Azure.Storage" Version="9.3.0" />
+        <PackageReference Include="Aspire.Hosting.PostgreSQL" Version="9.3.0" />
+        <PackageReference Include="Aspire.Hosting.Redis" Version="9.3.0" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\AuthService.API\AuthService.API.csproj" />
+      <ProjectReference Include="..\CatalogService.API\CatalogService.API.csproj" />
       <ProjectReference Include="..\Seller.UI\Seller.UI.csproj" />
       <ProjectReference Include="..\Shop.UI\Shop.UI.csproj" />
     </ItemGroup>

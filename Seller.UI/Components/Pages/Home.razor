@@ -1,4 +1,35 @@
 ﻿@page "/"
+@using System.Net.Http.Headers
+@inject NavigationManager NavigationManager
+@inject IHttpContextAccessor HttpContextAccessor
 
 <PageTitle>Home</PageTitle>
 
+@content
+
+@code {
+     [CascadingParameter] public HttpContext? Context { get; set; }
+
+     private string token = null!;
+     string content = string.Empty;
+     protected override async Task OnInitializedAsync()
+     {
+          Context ??= HttpContextAccessor.HttpContext;
+          if (Context == null)
+          {
+               NavigationManager.Refresh();
+               return;
+          }
+
+          token = (await Context.GetTokenAsync("access_token"))!;
+
+          var client = new HttpClient();
+          
+          var request = new HttpRequestMessage(HttpMethod.Get, "https://localhost:7040/api/test");
+          request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+          var response = await client.SendAsync(request);
+          content = await response.Content.ReadAsStringAsync();
+     }
+
+}
