@@ -10,6 +10,7 @@ var dbContainer = builder.AddPostgres("postgres", dbUser, dbPassword)
 
 var identityDb = dbContainer.AddDatabase("IdentityDb");
 var catalogDb = dbContainer.AddDatabase("CatalogDb");
+var productDb = dbContainer.AddDatabase("ProductDb");
 
 var storage = builder.AddAzureStorage("Storage")
     .RunAsEmulator(c => c.WithLifetime(ContainerLifetime.Persistent));
@@ -25,6 +26,13 @@ var authService = builder.AddProject<Projects.AuthService_API>("AuthService")
 
 var catalogService = builder.AddProject<Projects.CatalogService_API>("CatalogService")
     .WithReference(catalogDb)
+    .WithReference(authService)
+    .WithReference(objectStore)
+    .WaitFor(storage)
+    .WaitFor(dbContainer);
+
+var productService = builder.AddProject<Projects.ProductService_Api>("ProductService")
+    .WithReference(productDb)
     .WithReference(authService)
     .WithReference(objectStore)
     .WaitFor(storage)
