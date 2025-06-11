@@ -1,13 +1,20 @@
-using ProductService.Api.Data;
-using DbInitializer = ProductService.Api.Data.DbInitializer;
+using OrderService.Api.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.AddServiceDefaults();
+builder.Services.AddOpenApi();
 
-builder.AddNpgsqlDbContext<ProductServiceContext>("ProductDb");
+builder.AddServiceDefaults();
+builder.AddNpgsqlDbContext<OrderServiceContext>("OrderDb");
 
 var identityUrl = "http://localhost:5001";
+
+builder.Services.AddHttpClient("ProductService", client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7102/"); // adjust to your ProductService URL
+    client.DefaultRequestHeaders.Accept.Add(
+        new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+});
 
 builder.Services.AddAuthentication()
     .AddJwtBearer(o =>
@@ -21,6 +28,7 @@ builder.Services.AddAuthentication()
         o.TokenValidationParameters.ValidateIssuerSigningKey = false;
     });
 
+builder.Services.AddAuthorization();
 builder.Services.AddSingleton<DbInitializer>();
 builder.Services.AddHostedService(sp => sp.GetRequiredService<DbInitializer>());
 
@@ -31,6 +39,7 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

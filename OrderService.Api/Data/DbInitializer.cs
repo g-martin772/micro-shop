@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
-
-namespace ProductService.Api.Data;
+using OrderService.Api.Data;
 
 public class DbInitializer(
     IWebHostEnvironment env,
@@ -12,12 +11,12 @@ public class DbInitializer(
     public const string ActivitySourceName = "Migrations";
 
     private readonly ActivitySource m_ActivitySource = new(ActivitySourceName);
-    private ProductServiceContext m_DbContext = null!;
+    private OrderServiceContext m_DbContext = null!;
 
     protected override async Task ExecuteAsync(CancellationToken cancellationToken)
     {
         using var scope = serviceProvider.CreateScope();
-        m_DbContext = scope.ServiceProvider.GetRequiredService<ProductServiceContext>();
+        m_DbContext = scope.ServiceProvider.GetRequiredService<OrderServiceContext>();
         await InitializeDatabaseAsync(cancellationToken);
     }
 

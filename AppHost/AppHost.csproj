@@ -24,6 +24,7 @@
     <ItemGroup>
       <ProjectReference Include="..\AuthService.API\AuthService.API.csproj" />
       <ProjectReference Include="..\CatalogService.API\CatalogService.API.csproj" />
+      <ProjectReference Include="..\OrderService.Api\OrderService.Api.csproj" />
       <ProjectReference Include="..\ProductService.Api\ProductService.Api.csproj" />
       <ProjectReference Include="..\Seller.UI\Seller.UI.csproj" />
       <ProjectReference Include="..\Shop.UI\Shop.UI.csproj" />

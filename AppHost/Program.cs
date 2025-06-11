@@ -11,6 +11,7 @@ var dbContainer = builder.AddPostgres("postgres", dbUser, dbPassword)
 var identityDb = dbContainer.AddDatabase("IdentityDb");
 var catalogDb = dbContainer.AddDatabase("CatalogDb");
 var productDb = dbContainer.AddDatabase("ProductDb");
+var orderDb = dbContainer.AddDatabase("OrderDb");
 
 var storage = builder.AddAzureStorage("Storage")
     .RunAsEmulator(c => c.WithLifetime(ContainerLifetime.Persistent));
@@ -45,5 +46,13 @@ var shopUi = builder.AddProject<Projects.Shop_UI>("ShopUI")
 var sellerUi = builder.AddProject<Projects.Seller_UI>("SellerUI")
     .WithReference(authService)
     .WaitFor(authService);
+
+var orderApi = builder.AddProject<Projects.OrderService_Api>("OrderApi")
+    .WithReference(orderDb)
+    .WithReference(authService)
+    .WithReference(objectStore)
+    .WaitFor(storage)
+    .WaitFor(dbContainer);
+
 
 builder.Build().Run();
